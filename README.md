@@ -2,6 +2,7 @@
 
 ## A DotNet tool to create a solution filter form a Visual Studio solution, controlled by MSBuild project properties. 
 [![Build](https://github.com/tom-englert/SolutionFilterBuilder/actions/workflows/build.yml/badge.svg)](https://github.com/tom-englert/SolutionFilterBuilder/actions/workflows/build.yml)
+[![Nuget](https://img.shields.io/nuget/v/SolutionFilterBuilder)](https://www.nuget.org/packages/SolutionFilterBuilder)
 
 Easily create a solution filter to avoid loading more than necessary, and update your filter whenever your solution changes.
 
