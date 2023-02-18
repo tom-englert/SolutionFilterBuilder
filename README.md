@@ -27,7 +27,7 @@ You can include several projects by convention by adding conditional properties 
     
 - Include all test projects in `Test.slnf`:
 ```xml
-    <IncludeInSolutionFilter Condition="'$(IncludeInSolutionFilter)'=='' AND $(IsTestProject) AND '$(SolutionFilterName)'=='Test'">true</IncludeInSolutionFilter>
+    <IncludeInSolutionFilter Condition="'$(IncludeInSolutionFilter)'=='' AND '$(IsTestProject)'=='True' AND '$(SolutionFilterName)'=='Test'">true</IncludeInSolutionFilter>
 ```
     
 - Include all projects ending with `Something` in `Something.slnf`:
