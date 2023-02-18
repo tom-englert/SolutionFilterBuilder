@@ -41,7 +41,10 @@ You can include several projects by convention by adding conditional properties 
      <IncludeInSolutionFilter Condition="'$(IncludeInSolutionFilter)'=='' AND '$(OutputType)'=='Exe' AND '$(IsTestProject)'!='true' AND '$(SolutionFilterName)'=='Apps'">true</IncludeInSolutionFilter>
    ```
 
-
+## Installation
+```
+dotnet tool install solutionfilterbuilder -g
+```
 ## Usage
 ```
 build-slnf [options]
