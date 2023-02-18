@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SolutionFilterGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": " -o Setup.slnf"
+    }
+  }
+}

@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <RollForward>Major</RollForward>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Compile">
+    <LangVersion>11.0</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalyzerMode>All</AnalyzerMode>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Pack">
+    <Authors>Tom Englert</Authors>
+    <Company>tom-englert.de</Company>
+    <Copyright>© 2023 tom-englert.de</Copyright>
+    <Product>Tom's Toolbox</Product>
+    <PackageTags>MSBuild;Visual Studio;Solution;SolutionFilter</PackageTags>
+    <Description>A DotNet tool to build a solution filter from a solution, controlled by MSBuild project properties.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>build-slnf</ToolCommandName>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Deterministic Builds">
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <!-- Enable deterministic builds https://docs.microsoft.com/en-us/dotnet/standard/library-guidance -->
+    <ContinuousIntegrationBuild Condition="'$(TF_BUILD)' == 'true'">true</ContinuousIntegrationBuild>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Build" Version="17.4.0" ExcludeAssets="runtime" />
+    <PackageReference Include="Microsoft.Build.Locator" Version="1.2.2" />
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.4.0" ExcludeAssets="runtime" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="all" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+    <PackageReference Include="TomsToolbox.Essentials" Version="2.8.5" />
+  </ItemGroup>
+
+</Project>
