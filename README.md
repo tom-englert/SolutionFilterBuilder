@@ -1,13 +1,11 @@
 # SolutionFilterBuilder
 
----
 ## A DotNet tool to create a solution filter form a Visual Studio solution, controlled by MSBuild project properties.
 
 Easily create a solution filter to avoid loading more than necessary, and update your filter whenever your solution changes.
 
 This tool uses MSBuild logic to control which projects should be part of your filter, giving you a high grade of flexibility.
 
----
 All projects containing a property `IncludeInSolutionFilter` set to `true` are included in the specified filter, along with all their referenced projects.
 A property `SolutionFilterName` is provided to be able to write MSBuild conditions based on the filter name.
 

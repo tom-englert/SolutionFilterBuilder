@@ -19,6 +19,7 @@ jobs:
           dotnet-version: 6.0.x
 
       - name: Build
+        working-directory: ./src
         run: dotnet build --configuration Release
 
       - name: Upload package
