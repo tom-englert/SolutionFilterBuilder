@@ -20,14 +20,14 @@ You can mark individual projects by adding the `IncludeInSolutionFilter` propert
 
 - Include the project only if the filter name is `Setup.slnf`:
 ```xml
-    <IncludeInSolutionFilter Condition="$'(SolutionFilterName)'=='Setup'">true</IncludeInSolutionFilter>
+    <IncludeInSolutionFilter Condition="'$(SolutionFilterName)'=='Setup'">true</IncludeInSolutionFilter>
 ```
 
 You can include several projects by convention by adding conditional properties in the Directory.Build.targets file:
     
 - Include all test projects in `Test.slnf`:
 ```xml
-    <IncludeInSolutionFilter Condition="$'(IncludeInSolutionFilter)'=='' AND $(IsTestProject) AND '$(SolutionFilterName)'=='Test'">true</IncludeInSolutionFilter>
+    <IncludeInSolutionFilter Condition="'$(IncludeInSolutionFilter)'=='' AND $(IsTestProject) AND '$(SolutionFilterName)'=='Test'">true</IncludeInSolutionFilter>
 ```
     
 - Include all projects ending with `Something` in `Something.slnf`:
