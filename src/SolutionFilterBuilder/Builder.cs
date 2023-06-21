@@ -39,14 +39,13 @@ internal sealed class Builder
             _solutionPath = Path.GetFileName(_solutionPath);
         }
 
-        Environment.SetEnvironmentVariable(SolutionFilterName, solutionFilterName);
-
         Output.WriteLine($"Solution: '{input}'");
+        Output.WriteLine($"Filter:   '{solutionFilterName}'");
         Output.WriteLine();
 
         var solution = SolutionFile.Parse(input.FullName);
 
-        _projects = LoadProjects(solution)
+        _projects = LoadProjects(solution, solutionFilterName)
             .ExceptNullItems()
             .ToArray();
 
@@ -122,14 +121,16 @@ internal sealed class Builder
 
         var property = project.GetProperty(IncludeInSolutionFilter);
 
-        if (!bool.TryParse(property?.EvaluatedValue, out var include) || !include)
-            return false;
-
-        return true;
+        return bool.TryParse(property?.EvaluatedValue, out var include) && include;
     }
 
-    private static IEnumerable<ProjectInfo?> LoadProjects(SolutionFile solution)
+    private static IEnumerable<ProjectInfo?> LoadProjects(SolutionFile solution, string solutionFilterName)
     {
+        var globalProperties = new Dictionary<string, string>
+        {
+            { SolutionFilterName, solutionFilterName }
+        };
+
         foreach (var projectReference in solution.ProjectsInOrder)
         {
             if (projectReference.ProjectType == SolutionProjectType.SolutionFolder)
@@ -140,7 +141,17 @@ internal sealed class Builder
             try
             {
                 Output.WriteLine($"Load: {projectReference.RelativePath}");
-                projectInfo = new ProjectInfo(projectReference, new Project(projectReference.AbsolutePath));
+
+                var project = new Project(projectReference.AbsolutePath, globalProperties, null);
+
+                var filterName = project.GetProperty(SolutionFilterName)?.EvaluatedValue;
+
+                if (filterName != solutionFilterName)
+                    throw new InvalidOperationException($"The property {SolutionFilterName} is not set for the project");
+
+                Output.WriteLine($"  - {IncludeInSolutionFilter}: {project.GetProperty(IncludeInSolutionFilter)?.EvaluatedValue}");
+
+                projectInfo = new ProjectInfo(projectReference, project);
             }
             catch (Exception ex)
             {
