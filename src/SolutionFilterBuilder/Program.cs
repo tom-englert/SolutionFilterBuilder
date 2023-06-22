@@ -61,7 +61,14 @@ return returnValue;
 static int Run(FileInfo? input, string output)
 {
     var visualStudioInstance = MSBuildLocator.QueryVisualStudioInstances().MaxBy(instance => instance.Version);
+    if (visualStudioInstance is null)
+    {
+        Output.WriteError($"No Visual Studio instance found");
+        return 1;
+    }
+
     MSBuildLocator.RegisterInstance(visualStudioInstance);
+    Output.WriteLine($"Using Visual Studio {visualStudioInstance.Version}, {visualStudioInstance.DiscoveryType}, MSBuild: {visualStudioInstance.MSBuildPath}");
 
     try
     {
