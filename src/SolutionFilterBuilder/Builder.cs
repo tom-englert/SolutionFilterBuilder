@@ -9,7 +9,8 @@ using static Constants;
 
 internal sealed class Builder
 {
-    private const string SolutionFilterExtension = @".slnf";
+    private const string SolutionFilterExtension = ".slnf";
+    private static readonly JsonSerializerOptions SerializerOptions = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, WriteIndented = true };
 
     private readonly ProjectInfo[] _projects;
     private readonly HashSet<string> _includedProjects = new();
@@ -64,7 +65,7 @@ internal sealed class Builder
             AddProject(project);
         }
 
-        if (!_includedProjects.Any())
+        if (_includedProjects.Count == 0)
         {
             Output.WriteError("No projects to include, filter not generated");
             return 1;
@@ -75,7 +76,7 @@ internal sealed class Builder
 
         var solutionFilter = new SolutionFilter(_solutionPath, _includedProjects.OrderBy(item => item, StringComparer.Ordinal).ToArray());
 
-        var filterText = JsonSerializer.Serialize(solutionFilter, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, WriteIndented = true });
+        var filterText = JsonSerializer.Serialize(solutionFilter, SerializerOptions);
 
         File.WriteAllText(_solutionFilterFilePath, filterText);
 
